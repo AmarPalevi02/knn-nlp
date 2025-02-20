@@ -1,0 +1,96 @@
+body {
+   background-color: #f8f9fa;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   min-height: 100vh;
+   margin: 0;
+   padding: 20px;
+}
+
+#alert-container {
+   position: absolute;
+   top: 20px;
+   right: 30px;
+}
+
+.login-container {
+   width: 100%;
+   max-width: 900px;
+}
+
+.login-card {
+   display: flex;
+   background: #fff;
+   border-radius: 10px;
+   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+   overflow: hidden;
+   flex-direction: column;
+}
+
+.login-form {
+   flex: 1;
+   padding: 20px;
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+}
+
+.login-image {
+   flex: 1;
+   background: url("../images/login.jpg") no-repeat center center/cover;
+   display: none;
+   min-height: 200px; 
+}
+
+.register-link {
+   text-align: center;
+   margin-top: 15px;
+}
+
+.register-link a {
+   color: #007bff;
+   text-decoration: none;
+}
+
+.register-link a:hover {
+   text-decoration: underline;
+}
+
+
+@media (min-width: 768px) {
+   .login-card {
+      flex-direction: row;
+   }
+
+   .login-form {
+      padding: 40px;
+   }
+
+   .login-image {
+      display: block;
+      min-height: auto;
+   }
+}
+
+@media (max-width: 767px) {
+   .login-form {
+      padding: 15px;
+   }
+
+   h2 {
+      font-size: 1.5rem; 
+   }
+
+   .form-label {
+      font-size: 0.9rem; 
+   }
+
+   .form-control {
+      font-size: 0.9rem; 
+   }
+
+   .btn {
+      font-size: 0.9rem; 
+   }
+}
