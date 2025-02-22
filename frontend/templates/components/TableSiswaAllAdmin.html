@@ -1,0 +1,25 @@
+{% extends './dashboardAdmin.html' %}
+
+
+{% block contents %}
+<h2>Data Siswa</h2>
+<div class="table-responsive">
+   <table class="table table-striped w-100 table-bordered datatable-select-inputs text-nowrap">
+      <thead>
+         <tr>
+            <th>No</th>
+            <th>Nama</th>
+            <th>NISN</th>
+            <th>Jenis Kelamin</th>
+            <th>Asal Sekolah</th>
+            <th>Jurusan</th>
+            <th>Hasil</th>
+            <th>Actions</th>
+         </tr>
+      </thead>
+      <tbody id="table-body">
+
+      </tbody>
+   </table>
+</div>
+{% endblock %}

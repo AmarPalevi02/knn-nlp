@@ -18,4 +18,8 @@ def dashboard():
 
 @frontend_bp.route("/admin/dashboard")
 def dashboard_admin():
-    return render_template("dashboardAdmin.html")
+    return render_template("components/TableSiswaAllAdmin.html")
+
+@frontend_bp.route("/admin/dashboard/edit")
+def dashboard_admin_edit():
+    return render_template("components/dashboardAdminEdit.html")

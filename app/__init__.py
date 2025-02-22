@@ -7,11 +7,6 @@ from config import Config
 from dotenv import load_dotenv
 from flask_cors import CORS
 
-from app.routes.dashboardsiswa_routes import dashboard_siswa_bp
-from app.routes.dashboardadmin_routes import dashboard_admin_bp
-
-from app.routes.frontend_routes import frontend_bp
-
 load_dotenv()
 
 db = SQLAlchemy()
@@ -34,6 +29,11 @@ def create_app():
     bcrypt.init_app(app)
 
     from app.routes.auth_routes import auth_bp
+    from app.routes.dashboardsiswa_routes import dashboard_siswa_bp
+    from app.routes.dashboardadmin_routes import dashboard_admin_bp
+
+    from app.routes.frontend_routes import frontend_bp
+    
     app.register_blueprint(auth_bp, url_prefix="/auth")
     app.register_blueprint(dashboard_siswa_bp, url_prefix="/siswa")
     app.register_blueprint(dashboard_admin_bp, url_prefix="/admin")

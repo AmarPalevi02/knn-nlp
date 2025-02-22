@@ -31,57 +31,7 @@
 
 
     <div id="main-wrapper">
-        <!-- Sidebar Start -->
-        <aside class="left-sidebar with-vertical">
-            <div><!-- ---------------------------------- -->
-                <!-- Start Vertical Layout Sidebar -->
-                <!-- ---------------------------------- -->
-                <div class="brand-logo d-flex align-items-center justify-content-between">
-                    <a href="./main/index.html" class="text-nowrap logo-img">
-                        <img src="{{url_for('static', filename='images/dark-logo.svg')}}" class="dark-logo"
-                            alt="Logo-Dark" />
-                        <img src="{{url_for('static', filename='images/light-logo.svg')}}" class="light-logo"
-                            alt="Logo-light" />
-                    </a>
-                    <a href="javascript:void(0)"
-                        class="sidebartoggler ms-auto text-decoration-none fs-5 d-block d-xl-none">
-                        <i class="ti ti-x"></i>
-                    </a>
-                </div>
-
-
-                <nav class="sidebar-nav scroll-sidebar" data-simplebar>
-                    <ul id="sidebarnav">
-                        <li class="sidebar-item">
-                            <a class="sidebar-link" href="/admin/dashboard" id="get-url" aria-expanded="false">
-                                <span>
-                                    <i class="ti ti-aperture"></i>
-                                </span>
-                                <span class="hide-menu">Data siswa</span>
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
-
-                <div class="fixed-profile p-3 mx-4 mb-2 bg-secondary-subtle rounded mt-3">
-                    <div class="hstack gap-3">
-                        <div class="john-img">
-                            <img src="{{ url_for('static', filename='images/user-1.jpg') }}" class="rounded-circle"
-                                width="40" height="40" alt="modernize-img" />
-                        </div>
-                        <div class="john-title">
-                            <h6 class="user" class="mb-0 fs-4 fw-semibold"></h6>
-                            <span class="role" class="fs-2"></span>
-                        </div>
-                        <button onclick="logout()" class="border-0 bg-transparent text-primary ms-auto" tabindex="0"
-                            type="button" aria-label="logout" data-bs-toggle="tooltip" data-bs-placement="top"
-                            data-bs-title="logout">
-                            <i class="ti ti-power fs-6"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </aside>
+        {% include '/components/sidebarAdmin.html' %}
         <!--  Sidebar End -->
         <div class="page-wrapper">
             <!--  Header Start -->
@@ -182,117 +132,35 @@
             <!-- ======================== content ==============================-->
             <div class="body-wrapper">
                 <div class="container-fluid">
-                    <p>Content</p>
-                    <div class="table-responsive">
-                        <table class="table table-striped w-100 table-bordered datatable-select-inputs text-nowrap">
-                            <thead>
-                                <!-- start row -->
-                                <tr>
-                                    <th>No</th>
-                                    <th>Nama</th>
-                                    <th>NISN</th>
-                                    <th>Jenis Kelamin</th>
-                                    <th>Asal Sekolah</th>
-                                    <th>Jurusan</th>
-                                    <th>Hasil</th>
-                                    <th>Actions</th>
-                                </tr>
-                                <!-- end row -->
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>Andi Pratama</td>
-                                    <td>1234567890</td>
-                                    <td>Laki-laki</td>
-                                    <td>SMA Negeri 1 Jakarta</td>
-                                    <td>Teknik Informatika</td>
-                                    <td >
-                                        Berdasarkan hasil tes minat dan bakat, Andi direkomendasikan untuk mengambil
-                                        jurusan Teknik Informatika di jenjang S1 karena memiliki kemampuan logika dan
-                                        analisis yang kuat, serta minat yang tinggi dalam pemrograman dan teknologi.
-                                    </td>
-                                    <td>
-                                        <button>Edit</button>
-                                        <button>Hapus</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>Budi Santoso</td>
-                                    <td>0987654321</td>
-                                    <td>Laki-laki</td>
-                                    <td>SMA Negeri 2 Bandung</td>
-                                    <td>Akuntansi</td>
-                                    <td>
-                                        Budi memiliki ketertarikan dan kemampuan dalam menghitung serta menganalisis
-                                        data keuangan. Oleh karena itu, direkomendasikan untuk mengambil jurusan
-                                        Akuntansi di jenjang S1 untuk mengembangkan potensinya dalam bidang keuangan dan
-                                        bisnis.
-                                    </td>
-                                    <td>
-                                        <button>Edit</button>
-                                        <button>Hapus</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>3</td>
-                                    <td>Citra Lestari</td>
-                                    <td>1122334455</td>
-                                    <td>Perempuan</td>
-                                    <td>SMA Negeri 3 Surabaya</td>
-                                    <td>Kedokteran</td>
-                                    <td>
-                                        Citra menunjukkan minat yang besar dalam bidang biologi dan kesehatan, serta
-                                        memiliki nilai akademis yang sangat baik di bidang sains. Rekomendasi untuk
-                                        mengambil jurusan Kedokteran di jenjang S1 sangat sesuai untuk mengembangkan
-                                        karirnya di dunia medis.
-                                    </td>
-                                    <td>
-                                        <button>Edit</button>
-                                        <button>Hapus</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>4</td>
-                                    <td>Dewi Anggraeni</td>
-                                    <td>5566778899</td>
-                                    <td>Perempuan</td>
-                                    <td>SMA Negeri 4 Yogyakarta</td>
-                                    <td>Psikologi</td>
-                                    <td>
-                                        Dewi memiliki kemampuan komunikasi yang baik dan minat yang tinggi dalam
-                                        memahami perilaku manusia. Rekomendasi untuk mengambil jurusan Psikologi di
-                                        jenjang S1 akan membantu mengembangkan potensinya dalam bidang konseling dan
-                                        penelitian psikologis.
-                                    </td>
-                                    <td>
-                                        <button>Edit</button>
-                                        <button>Hapus</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>5</td>
-                                    <td>Eko Prasetyo</td>
-                                    <td>9988776655</td>
-                                    <td>Laki-laki</td>
-                                    <td>SMA Negeri 5 Semarang</td>
-                                    <td>Teknik Mesin</td>
-                                    <td>
-                                        Eko memiliki ketertarikan yang tinggi dalam bidang mekanik dan desain teknik.
-                                        Rekomendasi untuk mengambil jurusan Teknik Mesin di jenjang S1 sangat sesuai
-                                        untuk mengembangkan keterampilannya dalam merancang dan mengembangkan mesin
-                                        serta teknologi industri.
-                                    </td>
-                                    <td>
-                                        <button>Edit</button>
-                                        <button>Hapus</button>
-                                    </td>
-                                </tr>
-                                <!-- end row -->
-                            </tbody>
-                        </table>
+                    <div id="alert-container" class="position-fixed top-0 end-0 p-3" style="z-index: 1050;"></div>
+                    <!-- Modal Konfirmasi Hapus -->
+                    <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="confirmDeleteLabel">Konfirmasi Hapus</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Apakah Anda yakin ingin menghapus data siswa ini!</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Batal</button>
+                                    <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Hapus</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+
+                    <!-- Alert Bootstrap -->
+                    <div id="alertContainer" class="position-fixed top-0 start-50 translate-middle-x p-3"
+                        style="z-index: 1050;"></div>
+                    {% block contents %}
+
+                    {% endblock %}
                 </div>
             </div>
         </div>
