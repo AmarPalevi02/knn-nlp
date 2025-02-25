@@ -1,0 +1,54 @@
+.hero-section {
+   background: url("../images/hero.jpg") no-repeat center center/cover;
+   color: white;
+   height: 100vh;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   position: relative;
+   min-height: 100vh;
+   text-align: center;
+}
+
+.hero-section::before {
+   content: "";
+   position: absolute;
+   top: 0;
+   left: 0;
+   width: 100%;
+   height: 100%;
+   background: rgba(0, 0, 0, 0.5);
+   pointer-events: none;
+}
+
+.hero-section h1, .hero-section p {
+   text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
+}
+
+.cta-button {
+   background-color: #007bff;
+   color: white;
+   padding: 12px 24px;
+   border-radius: 5px;
+   text-decoration: none;
+   font-size: 18px;
+}
+
+.cta-button:hover {
+   background-color: #0056b3;
+}
+
+.card {
+   display: flex;
+   flex-direction: column;
+   height: 100%;
+}
+
+.row {
+   display: flex;
+   align-items: stretch;
+}
+
+#bakat {
+   resize: none;
+}

@@ -1,0 +1,26 @@
+{% extends './dashboardSiswa.html' %}
+
+{% block contents %}
+<div class="container">
+   <h1>Silahkan pilih jurusan</h1>
+   <form id="creareJurusan">
+      <div class="form-group mb-3">
+         <label for="jenis_kelamin">Pilih jurusan</label>
+         <select class="form-control" id="jenis_kelamin" name="jenis_kelamin" required>
+            <option value="Teknik komputer jaringan">Teknik komputer jaringan</option>
+            <option value="Rekayasa perangkat lunak">Rekayasa perangkat lunak</option>
+            <option value="Teknik kendaraan ringan">Teknik kendaraan ringan</option>
+            <option value="Teknik sepeda motor">Teknik sepeda motor</option>
+            <option value="Menejemen">Menejemen</option>
+         </select>
+      </div>
+
+      <div class="form-group mb-3">
+         <label for="alasan">Deskripsikan bakat anda</label>
+         <textarea class="form-control" id="bakat" name="bakat" rows="4"
+            placeholder="Deskripsikan bakat yang anda punya..." required></textarea>
+      </div>
+   </form>
+</div>
+
+{% endblock %}

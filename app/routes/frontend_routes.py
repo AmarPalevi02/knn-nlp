@@ -14,8 +14,19 @@ def register():
 
 @frontend_bp.route("/dashboard")
 def dashboard():
-    return render_template("dashboardSiswa.html")
+    return render_template("components/homeSiswa.html")
 
+@frontend_bp.route("/dashboard/siswa")
+def dashboard_siswa_formUpload():
+    return render_template("components/formSiswa.html")
+
+@frontend_bp.route("/dashboard/jurusan")
+def dashboard_siswa_jurusan():
+    return render_template("components/jurusanSiswa.html")
+
+
+
+# Route admin
 @frontend_bp.route("/admin/dashboard")
 def dashboard_admin():
     return render_template("components/TableSiswaAllAdmin.html")
