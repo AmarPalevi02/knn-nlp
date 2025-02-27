@@ -1,6 +1,7 @@
 from flask import Blueprint, jsonify, render_template
 from flask_jwt_extended import jwt_required, get_jwt_identity, get_jwt
 from app.controllers.datasiswa_controller import DataSiswaController
+from app.controllers.bakat_siswa_controller import BakatSiswaController
 from flask_jwt_extended import verify_jwt_in_request
 
 dashboard_siswa_bp = Blueprint("dashboard_siswa", __name__)
@@ -33,4 +34,14 @@ def add_siswa():
 @jwt_required()
 def get_my_siswa():
     return DataSiswaController.get_my_siswa()
+
+@dashboard_siswa_bp.route('/getall', methods=['GET'])
+@jwt_required()
+def add_get_all_siswa_byUser():
+    return DataSiswaController.get_my_siswa()
+
+@dashboard_siswa_bp.route('/jurusan', methods=['POST'])
+@jwt_required()
+def add_bakat_siswa():
+    return BakatSiswaController.create_bakat()
 

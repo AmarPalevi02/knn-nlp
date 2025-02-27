@@ -52,3 +52,24 @@
 #bakat {
    resize: none;
 }
+
+#siswa-id-select {
+   appearance: none;
+   padding: 10px;
+   font-size: 16px;
+   border-radius: 5px;
+   background-color: #fff;
+   border: 1px solid #ccc;
+}
+
+#siswa-id-select:focus {
+   border-color: #007bff;
+   outline: none;
+   box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+
+.container-select-siswa {
+   display: flex;
+   flex-direction: column;
+}

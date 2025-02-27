@@ -10,4 +10,4 @@ class DataSiswa(db.Model):
     jenis_kelamin = db.Column(db.String(10), nullable=False)
     alamat_sekolah = db.Column(db.String(255), nullable=False)
 
-    user = db.relationship('User', backref=db.backref('datasiswa', lazy=True))
+    bakat_siswa = db.relationship('BakatSiswa', backref='siswa', cascade="all, delete-orphan")

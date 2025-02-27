@@ -29,6 +29,7 @@ class DataSiswaController:
         "data": {"siswa_id": siswa.id}
     }), 201
 
+
     @staticmethod
     def get_my_siswa():
         user_id = get_jwt_identity()
@@ -48,6 +49,25 @@ class DataSiswaController:
             "data": data
         })
 
+# get siswa by id all
+   @staticmethod
+   def get_my_siswa():
+        user_id = get_jwt_identity()
+        siswa_list = SiswaService.get_siswa_by_user(user_id)
+
+        data = [{
+            "id": s.id,
+            "nama": s.nama,
+            "nisn": s.nisn,
+        } for s in siswa_list]
+
+        return jsonify({
+            "status": "success",
+            "message": "Data siswa berhasil diambil",
+            "data": data
+        }), 200
+
+
    @staticmethod
    def get_all_siswa():
         user_id = get_jwt_identity()
@@ -64,8 +84,9 @@ class DataSiswaController:
             "nisn": s.nisn,
             "jenis_kelamin": s.jenis_kelamin,
             "alamat_sekolah": s.alamat_sekolah,
-            "user_id": s.user_id
-        } for s in siswa_list]
+            "user_id": s.user_id,
+            "jurusan": jurusan if jurusan else "Belum ditentukan"
+        } for s, jurusan in siswa_list]
 
         return jsonify({
             "status": "success",

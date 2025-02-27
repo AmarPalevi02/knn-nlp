@@ -1,5 +1,6 @@
 from app import db
 from app.models.data_siswa_model import DataSiswa
+from app.models.bakat_siswa import BakatSiswa
 
 class SiswaService:
     @staticmethod
@@ -21,11 +22,18 @@ class SiswaService:
 
     @staticmethod
     def get_all_siswa():
-        return DataSiswa.query.all()  
+        # return DataSiswa.query.all()  
+        return db.session.query(DataSiswa, BakatSiswa.jurusan).outerjoin(BakatSiswa, DataSiswa.id == BakatSiswa.siswa_id).all()
 
     @staticmethod
     def get_siswa_by_user(user_id):
         return DataSiswa.query.filter_by(user_id=user_id).all()  
+
+# get siswa by id all
+    @staticmethod
+    def get_siswa_by_user(user_id):
+        return DataSiswa.query.filter_by(user_id=user_id).all()
+
 
     @staticmethod
     def delete_siswa(siswa_id):
