@@ -5,6 +5,32 @@ from app.models.user_model import User
 from app.models.data_siswa_model import DataSiswa
 
 class BakatSiswaController:
+    # @staticmethod
+    # def create_bakat():
+    #     user_id = get_jwt_identity()
+    #     data = request.json
+
+    #     if not all(k in data for k in ("siswa_id", "jurusan", "deskripsi_bakat")):
+    #         return jsonify({"status": "error", "message": "Data tidak lengkap"}), 400
+
+    #     siswa = DataSiswa.query.filter_by(id=data["siswa_id"], user_id=user_id).first()
+    #     if not siswa:
+    #         return jsonify({"status": "error", "message": "Data siswa tidak ditemukan atau tidak bisa diakses"}), 403
+
+    #     jurusan =BakatSiswaService.create_bakat(
+    #         siswa_id=data["siswa_id"],
+    #         jurusan=data["jurusan"],
+    #         deskripsi_bakat=data["deskripsi_bakat"]
+    #     )
+
+    #     return jsonify({
+    #         "status": "success",
+    #         "message": "Jurusan berhasil ditambahkan",
+    #         "data": {"jurusan_id": jurusan.id}
+    #     }), 201
+
+
+
     @staticmethod
     def create_bakat():
         user_id = get_jwt_identity()
@@ -17,7 +43,7 @@ class BakatSiswaController:
         if not siswa:
             return jsonify({"status": "error", "message": "Data siswa tidak ditemukan atau tidak bisa diakses"}), 403
 
-        jurusan =BakatSiswaService.create_bakat(
+        bakat_siswa = BakatSiswaService.create_bakat(
             siswa_id=data["siswa_id"],
             jurusan=data["jurusan"],
             deskripsi_bakat=data["deskripsi_bakat"]
@@ -25,9 +51,24 @@ class BakatSiswaController:
 
         return jsonify({
             "status": "success",
-            "message": "Jurusan berhasil ditambahkan",
-            "data": {"jurusan_id": jurusan.id}
+            "message": "Data bakat berhasil ditambahkan",
+            "data": {
+                "bakat_id": bakat_siswa.id,
+                "rekomendasi_jurusan": bakat_siswa.rekomendasi
+            }
         }), 201
+
+
+
+
+
+
+
+
+
+
+
+
 
     @staticmethod
     def get_my_jurusan():

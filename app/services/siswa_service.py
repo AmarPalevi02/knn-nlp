@@ -23,7 +23,7 @@ class SiswaService:
     @staticmethod
     def get_all_siswa():
         # return DataSiswa.query.all()  
-        return db.session.query(DataSiswa, BakatSiswa.jurusan).outerjoin(BakatSiswa, DataSiswa.id == BakatSiswa.siswa_id).all()
+        return db.session.query(DataSiswa, BakatSiswa.jurusan, BakatSiswa.rekomendasi).outerjoin(BakatSiswa, DataSiswa.id == BakatSiswa.siswa_id).all()
 
     @staticmethod
     def get_siswa_by_user(user_id):

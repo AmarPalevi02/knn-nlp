@@ -85,8 +85,9 @@ class DataSiswaController:
             "jenis_kelamin": s.jenis_kelamin,
             "alamat_sekolah": s.alamat_sekolah,
             "user_id": s.user_id,
-            "jurusan": jurusan if jurusan else "Belum ditentukan"
-        } for s, jurusan in siswa_list]
+            "jurusan": jurusan if jurusan else "Belum ditentukan",
+            "rekomendasi": rekomendasi if rekomendasi else "Belum ditentukan",
+        } for s, jurusan,rekomendasi in siswa_list]
 
         return jsonify({
             "status": "success",

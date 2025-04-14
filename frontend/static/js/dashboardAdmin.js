@@ -139,7 +139,7 @@ function renderTable(siswaList) {
          <td>${siswa.jenis_kelamin}</td>
          <td>${siswa.alamat_sekolah}</td>
          <td>${siswa.jurusan || "-"}</td>
-         <td>${siswa.hasil || "-"}</td>
+         <td>${siswa.rekomendasi || "-"}</td>
          <td>
             <button class="btn btn-primary btn-sm" onclick="editSiswa(${siswa.id})">Edit</button>
             <button class="btn btn-danger btn-sm" onclick="showDeleteModal(${siswa.id})">Hapus</button>
