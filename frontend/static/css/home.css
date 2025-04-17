@@ -1,5 +1,5 @@
 .hero-section {
-   background: url("../images/hero.jpg") no-repeat center center/cover;
+   background: url("../images/logo-main.jpg") no-repeat center center/cover;
    color: white;
    height: 100vh;
    display: flex;
@@ -21,8 +21,12 @@
    pointer-events: none;
 }
 
-.hero-section h1, .hero-section p {
+ .hero-section p {
    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
+}
+
+.hero-section h1 {
+   color: white;
 }
 
 .cta-button {
@@ -72,4 +76,67 @@
 .container-select-siswa {
    display: flex;
    flex-direction: column;
+}
+
+.logo-sidebar {
+   width: 39px;
+   height: auto;
+   padding-top: 20px;
+   padding-bottom: 20px;
+   transition: all 0.3s ease;
+}
+
+.container-logo {
+   display: flex;
+   align-items: center;
+   gap: 8px;
+   transition: all 0.3s ease;
+   text-decoration: none;
+}
+
+.logo-title {
+   font-size: large;
+   font-weight: 700;
+   margin-top: 20px;
+   transition: all 0.3s ease;
+}
+
+/* Saat sidebar collapse */
+.sidebar-collapsed .container-logo {
+   justify-content: center;
+   width: 100%;
+   padding: 10px 0;
+   display: none;
+}
+
+.sidebar-collapsed .logo-sidebar {
+   width: 0px;
+   height: 0px;
+   padding: 0;
+   /* supaya tidak ngedorong layout */
+   object-fit: contain;
+}
+
+.sidebar-collapsed .logo-title {
+   display: none;
+}
+
+.sidebar-collapsed {
+   width: 70px;
+   /* sesuaikan dengan tinggi logo + padding */
+   transition: all 0.3s ease;
+}
+
+
+.card-img-top.img-fit {
+   width: 100%;
+   height: 200px;
+   /* Atur tinggi yang konsisten */
+   object-fit: cover;
+   border-radius: 8px;
+}
+
+.card-title {
+   margin-top: 10px;
+   font-weight: 600;
 }

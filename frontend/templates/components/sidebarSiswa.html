@@ -1,11 +1,15 @@
-<aside class="left-sidebar with-vertical">
-   <div><!-- ---------------------------------- -->
+<aside class="left-sidebar with-vertical"  id="sidebar">
+   <div>
+      <!-- ---------------------------------- -->
       <!-- Start Vertical Layout Sidebar -->
       <!-- ---------------------------------- -->
       <div class="brand-logo d-flex align-items-center justify-content-between">
-         <a href="/dashboard" class="text-nowrap logo-img">
-            <img src="{{url_for('static', filename='images/dark-logo.svg')}}" class="dark-logo" alt="Logo-Dark" />
-            <img src="{{url_for('static', filename='images/logosenopati.png')}}" class="light-logo" alt="Logo-light" />
+         <a href="/dashboard" class="text-nowrap logo-img container-logo">
+            <img src="{{url_for('static', filename='images/logosenopati.png')}}" class="dark-logo logo-sidebar"
+               alt="Logo-Dark" />
+            <img src="{{url_for('static', filename='images/logosenopati.png')}}" class="light-logo logo-sidebar"
+               alt="Logo-light" />
+            <p class="logo-title">SMK SENOPATI</p>
          </a>
          <a href="javascript:void(0)" class="sidebartoggler ms-auto text-decoration-none fs-5 d-block d-xl-none">
             <i class="ti ti-x"></i>
@@ -60,3 +64,5 @@
       </div>
    </div>
 </aside>
+
+
