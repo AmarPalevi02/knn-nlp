@@ -42,6 +42,10 @@ def add_get_all_siswa_byUser():
 
 @dashboard_siswa_bp.route('/jurusan', methods=['POST'])
 @jwt_required()
-def add_bakat_siswa():
+def create_bakat():
     return BakatSiswaController.create_bakat()
 
+@dashboard_siswa_bp.route('/hasil/<int:siswa_id>', methods=['GET'])
+@jwt_required()
+def get_prediksi_siswa(siswa_id):
+    return BakatSiswaController.get_prediksi(siswa_id)

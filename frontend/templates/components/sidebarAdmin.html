@@ -3,9 +3,12 @@
       <!-- Start Vertical Layout Sidebar -->
       <!-- ---------------------------------- -->
       <div class="brand-logo d-flex align-items-center justify-content-between">
-         <a href="/admin/dashboard" class="text-nowrap logo-img">
-            <img src="{{url_for('static', filename='images/dark-logo.svg')}}" class="dark-logo" alt="Logo-Dark" />
-            <img src="{{url_for('static', filename='images/light-logo.svg')}}" class="light-logo" alt="Logo-light" />
+         <a href="/dashboard" class="text-nowrap logo-img container-logo">
+            <img src="{{url_for('static', filename='images/logosenopati.png')}}" class="dark-logo logo-sidebar"
+               alt="Logo-Dark" />
+            <img src="{{url_for('static', filename='images/logosenopati.png')}}" class="light-logo logo-sidebar"
+               alt="Logo-light" />
+            <p class="logo-title">SMK SENOPATI</p>
          </a>
          <a href="javascript:void(0)" class="sidebartoggler ms-auto text-decoration-none fs-5 d-block d-xl-none">
             <i class="ti ti-x"></i>
@@ -25,22 +28,5 @@
             </li>
          </ul>
       </nav>
-
-      <div class="fixed-profile p-3 mx-4 mb-2 bg-secondary-subtle rounded mt-3">
-         <div class="hstack gap-3">
-            <div class="john-img">
-               <img src="{{ url_for('static', filename='images/user-1.jpg') }}" class="rounded-circle" width="40"
-                  height="40" alt="modernize-img" />
-            </div>
-            <div class="john-title">
-               <h6 class="user" class="mb-0 fs-4 fw-semibold"></h6>
-               <span class="role" class="fs-2"></span>
-            </div>
-            <button onclick="logout()" class="border-0 bg-transparent text-primary ms-auto" tabindex="0" type="button"
-               aria-label="logout" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="logout">
-               <i class="ti ti-power fs-6"></i>
-            </button>
-         </div>
-      </div>
    </div>
 </aside>

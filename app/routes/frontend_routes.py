@@ -24,6 +24,11 @@ def dashboard_siswa_formUpload():
 def dashboard_siswa_jurusan():
     return render_template("components/jurusanSiswa.html")
 
+@frontend_bp.route("/dashboard/hasil")
+def dashboard_siswa_hasil():
+    return render_template("components/hasil.html")
+
+
 
 
 # Route admin

@@ -1,11 +1,11 @@
 {% extends './dashboardSiswa.html' %}
 
 {% block contents %}
-<header class="hero-section">
+<header class="hero-section-lanyerd">
    <div>
       <h1 class="title">Kenali Bakatmu, Pilih Jurusan yang Tepat!</h1>
       <p>Aplikasi Senopati membantumu menemukan jurusan terbaik berdasarkan bakat dan minatmu.</p>
-      <a href="#fitur" class="cta-button">Mulai Sekarang</a>
+      <a href="#jurusan" class="cta-button">Mulai Sekarang</a>
    </div>
 </header>
 
@@ -18,81 +18,78 @@
    </div>
 </section>
 
-<section id="fitur" class="py-5 text-center">
+<!-- Jurusan Section -->
+<section id="jurusan" class="py-5">
    <div class="container">
-      <h2>Jurusan Unggulan</h2>
-      <div class="row mt-4">
-         <div class="col-md-4">
-            <div class="card p-3 shadow h-100">
-               <img src="{{url_for('static', filename='images/jaringan-komputer.jpeg')}}" class="card-img-top img-fit"
-                  alt="Analisis Bakat">
+      <h2 class="text-center mb-5">Jurusan Unggulan</h2>
+
+      <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+         <!-- Card 1 -->
+         <div class="col">
+            <div class="card h-100 shadow-sm border-0">
+               <img src="{{url_for('static', filename='images/jaringan-komputer.jpeg')}}"
+                  class="card-img-top img-fluid jurusan-img" alt="Teknik Komputer Jaringan">
                <div class="card-body">
-                  <h4 class="card-title">Teknik Komputer Jaringan</h4>
-                  <p class="card-text card-text text-start">Jurusan ini membekali siswa dengan keahlian dalam membangun,
-                     mengelola, dan
+                  <h4 class="card-title text-primary">Teknik Komputer Jaringan</h4>
+                  <p class="card-text">Jurusan ini membekali siswa dengan keahlian dalam membangun, mengelola, dan
                      mengamankan jaringan komputer. Siswa akan belajar tentang instalasi jaringan LAN, konfigurasi
-                     server, jaringan nirkabel, hingga keamanan siber. Lulusan siap bekerja sebagai teknisi jaringan,
-                     administrator sistem, atau melanjutkan ke jenjang pendidikan tinggi.
+                     server, jaringan nirkabel, hingga keamanan siber.</p>
+               </div>
+            </div>
+         </div>
+
+         <!-- Card 2 -->
+         <div class="col">
+            <div class="card h-100 shadow-sm border-0">
+               <img src="{{url_for('static', filename='images/rppl.jpeg')}}" class="card-img-top img-fluid jurusan-img"
+                  alt="Rekayasa Perangkat Lunak">
+               <div class="card-body">
+                  <h4 class="card-title text-primary">Rekayasa Perangkat Lunak</h4>
+                  <p class="card-text">Jurusan ini fokus pada pengembangan perangkat lunak seperti aplikasi web, mobile,
+                     dan desktop. Siswa dibekali kemampuan coding, desain UI/UX, serta manajemen proyek perangkat lunak.
                   </p>
                </div>
             </div>
          </div>
-         <div class="col-md-4">
-            <div class="card p-3 shadow h-100">
-               <img src="{{url_for('static', filename='images/rppl.jpeg')}}" class="card-img-top img-fit"
-                  alt="Rekomendasi Jurusan">
+
+         <!-- Card 3 -->
+         <div class="col">
+            <div class="card h-100 shadow-sm border-0">
+               <img src="{{url_for('static', filename='images/management.jpeg')}}"
+                  class="card-img-top img-fluid jurusan-img" alt="Manajemen">
                <div class="card-body">
-                  <h4 class="card-title">Rekayasa Perangkat Lunak</h4>
-                  <p class="card-text card-text text-start">Jurusan ini fokus pada pengembangan perangkat lunak seperti
-                     aplikasi web, mobile, dan desktop. Siswa dibekali kemampuan coding, desain UI/UX, serta manajemen
-                     proyek perangkat lunak. Lulusan siap bekerja sebagai programmer, software developer, atau
-                     melanjutkan ke pendidikan tinggi di bidang teknologi informasi.</p>
-               </div>
-            </div>
-         </div>
-         <div class="col-md-4">
-            <div class="card p-3 shadow h-100">
-               <img src="{{url_for('static', filename='images/management.jpeg')}}" class="card-img-top img-fit"
-                  alt="Tips & Konseling">
-               <div class="card-body">
-                  <h4 class="card-title">Manajemen</h4>
-                  <p class="card-text card-text text-start">Jurusan Manajemen membekali siswa dengan keterampilan dalam
-                     pengelolaan
+                  <h4 class="card-title text-primary">Manajemen</h4>
+                  <p class="card-text">Jurusan Manajemen membekali siswa dengan keterampilan dalam pengelolaan
                      administrasi, keuangan, pemasaran, dan sumber daya manusia. Siswa dilatih menjadi tenaga kerja
-                     profesional di bidang bisnis dan perkantoran, serta siap menghadapi dunia kerja atau melanjutkan
-                     studi di bidang manajemen dan ekonomi.</p>
+                     profesional di bidang bisnis dan perkantoran.</p>
                </div>
             </div>
          </div>
 
-         <!-- break line -->
-         <div class="col-md-4 mt-3">
-            <div class="card p-3 shadow h-100">
+         <!-- Card 4 -->
+         <div class="col">
+            <div class="card h-100 shadow-sm border-0">
                <img src="{{url_for('static', filename='images/teknik-kendaraan-ringan.jpg')}}"
-                  class="card-img-top img-fit" alt="Tips & Konseling">
+                  class="card-img-top img-fluid jurusan-img" alt="Teknik Kendaraan Ringan">
                <div class="card-body">
-                  <h4 class="card-title">Teknik Kendaraan Ringan</h4>
-                  <p class="card-text card-text text-start">Jurusan ini mempelajari perawatan dan perbaikan mobil serta
-                     sistem-sistem
+                  <h4 class="card-title text-primary">Teknik Kendaraan Ringan</h4>
+                  <p class="card-text">Jurusan ini mempelajari perawatan dan perbaikan mobil serta sistem-sistem
                      kendaraan seperti mesin, rem, transmisi, dan kelistrikan. Siswa dibekali keterampilan praktis dan
-                     teknis untuk menjadi mekanik handal, teknisi otomotif, atau wirausahawan di bidang bengkel
-                     kendaraan.
-                  </p>
+                     teknis untuk menjadi mekanik handal.</p>
                </div>
             </div>
          </div>
 
-         <div class="col-md-4 mt-3">
-            <div class="card p-3 shadow h-100">
-               <img src="{{url_for('static', filename='images/teknik-sepeda-motor.jpeg')}}" class="card-img-top img-fit"
-                  alt="Tips & Konseling">
+         <!-- Card 5 -->
+         <div class="col">
+            <div class="card h-100 shadow-sm border-0">
+               <img src="{{url_for('static', filename='images/teknik-sepeda-motor.jpeg')}}"
+                  class="card-img-top img-fluid jurusan-img" alt="Teknik Sepeda Motor">
                <div class="card-body">
-                  <h4 class="card-title">Teknik Sepeda Motor</h4>
-                  <p class="card-text card-text text-start">Jurusan ini mengajarkan perawatan, perbaikan, dan modifikasi
-                     sepeda motor berbagai merek. Siswa dibekali keterampilan dalam sistem mesin, rangka, kelistrikan,
-                     dan teknologi injeksi. Lulusan siap bekerja di bengkel resmi, industri otomotif, atau membuka usaha
-                     sendiri di bidang servis motor.
-                  </p>
+                  <h4 class="card-title text-primary">Teknik Sepeda Motor</h4>
+                  <p class="card-text">Jurusan ini mengajarkan perawatan, perbaikan, dan modifikasi sepeda motor
+                     berbagai merek. Siswa dibekali keterampilan dalam sistem mesin, rangka, kelistrikan, dan teknologi
+                     injeksi.</p>
                </div>
             </div>
          </div>

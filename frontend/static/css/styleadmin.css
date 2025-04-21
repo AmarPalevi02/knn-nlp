@@ -1,0 +1,48 @@
+.logo-sidebar {
+   width: 39px;
+   height: auto;
+   padding-top: 20px;
+   padding-bottom: 20px;
+   transition: all 0.3s ease;
+}
+
+.container-logo {
+   display: flex;
+   align-items: center;
+   gap: 8px;
+   transition: all 0.3s ease;
+   text-decoration: none;
+}
+
+.logo-title {
+   font-size: large;
+   font-weight: 700;
+   margin-top: 20px;
+   transition: all 0.3s ease;
+}
+
+/* Saat sidebar collapse */
+.sidebar-collapsed .container-logo {
+   justify-content: center;
+   width: 100%;
+   padding: 10px 0;
+   display: none;
+}
+
+.sidebar-collapsed .logo-sidebar {
+   width: 0px;
+   height: 0px;
+   padding: 0;
+   /* supaya tidak ngedorong layout */
+   object-fit: contain;
+}
+
+.sidebar-collapsed .logo-title {
+   display: none;
+}
+
+.sidebar-collapsed {
+   width: 70px;
+   /* sesuaikan dengan tinggi logo + padding */
+   transition: all 0.3s ease;
+}

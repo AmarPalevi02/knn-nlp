@@ -132,21 +132,36 @@ function renderTable(siswaList) {
 
    siswaList.forEach((siswa, index) => {
       const row = document.createElement("tr");
+
+      // Parse rekomendasi JSON string
+      let rekomendasiHTML = "<ul>";
+      try {
+         const rekomendasiList = JSON.parse(siswa.rekomendasi);
+         rekomendasiList.forEach(item => {
+            rekomendasiHTML += `<li>${item.jurusan} (Skor: ${item.skor})</li>`;
+         });
+      } catch (error) {
+         rekomendasiHTML += "<li>-</li>";
+      }
+      rekomendasiHTML += "</ul>";
+
       row.innerHTML = `
-         <td>${index + 1}</td>
-         <td>${siswa.nama}</td>
-         <td>${siswa.nisn}</td>
-         <td>${siswa.jenis_kelamin}</td>
-         <td>${siswa.alamat_sekolah}</td>
-         <td>${siswa.jurusan || "-"}</td>
-         <td>${siswa.rekomendasi || "-"}</td>
-         <td>
-            <button class="btn btn-primary btn-sm" onclick="editSiswa(${siswa.id})">Edit</button>
-            <button class="btn btn-danger btn-sm" onclick="showDeleteModal(${siswa.id})">Hapus</button>
-         </td>
+        <td>${index + 1}</td>
+        <td>${siswa.nama}</td>
+        <td>${siswa.nisn}</td>
+        <td>${siswa.jenis_kelamin}</td>
+        <td>${siswa.alamat_sekolah}</td>
+        <td>${siswa.jurusan || "-"}</td>
+        <td>${rekomendasiHTML}</td>
+        <td>
+          <button class="btn btn-primary btn-sm" onclick="editSiswa(${siswa.id})">Edit</button>
+          <button class="btn btn-danger btn-sm" onclick="showDeleteModal(${siswa.id})">Hapus</button>
+        </td>
       `;
+
       tbody.appendChild(row);
    });
+
 
    console.log("Tabel berhasil diperbarui!");
 }
@@ -218,9 +233,9 @@ document.getElementById("editSiswaForm").addEventListener("submit", function (ev
 
          const result = await response.json();
          if (response.ok) {
-            
-            window.location.href = "/admin/dashboard"; 
-            
+
+            window.location.href = "/admin/dashboard";
+
          } else {
             alert("Gagal memperbarui data: " + result.message);
          }

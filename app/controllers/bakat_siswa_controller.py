@@ -1,117 +1,44 @@
 from flask import request, jsonify
-from flask_jwt_extended import get_jwt_identity
 from app.services.bakat_siswa_service import BakatSiswaService
-from app.models.user_model import User
-from app.models.data_siswa_model import DataSiswa
+import json
 
 class BakatSiswaController:
-    # @staticmethod
-    # def create_bakat():
-    #     user_id = get_jwt_identity()
-    #     data = request.json
-
-    #     if not all(k in data for k in ("siswa_id", "jurusan", "deskripsi_bakat")):
-    #         return jsonify({"status": "error", "message": "Data tidak lengkap"}), 400
-
-    #     siswa = DataSiswa.query.filter_by(id=data["siswa_id"], user_id=user_id).first()
-    #     if not siswa:
-    #         return jsonify({"status": "error", "message": "Data siswa tidak ditemukan atau tidak bisa diakses"}), 403
-
-    #     jurusan =BakatSiswaService.create_bakat(
-    #         siswa_id=data["siswa_id"],
-    #         jurusan=data["jurusan"],
-    #         deskripsi_bakat=data["deskripsi_bakat"]
-    #     )
-
-    #     return jsonify({
-    #         "status": "success",
-    #         "message": "Jurusan berhasil ditambahkan",
-    #         "data": {"jurusan_id": jurusan.id}
-    #     }), 201
-
-
-
     @staticmethod
     def create_bakat():
-        user_id = get_jwt_identity()
-        data = request.json
+        try:
+            data = request.get_json()
+            siswa_id = data.get("siswa_id")
+            deskripsi_bakat = data.get("deskripsi_bakat")
 
-        if not all(k in data for k in ("siswa_id", "jurusan", "deskripsi_bakat")):
-            return jsonify({"status": "error", "message": "Data tidak lengkap"}), 400
+            if not siswa_id or not deskripsi_bakat:
+                return jsonify({"message": "siswa_id dan deskripsi_bakat wajib diisi"}), 400
 
-        siswa = DataSiswa.query.filter_by(id=data["siswa_id"], user_id=user_id).first()
-        if not siswa:
-            return jsonify({"status": "error", "message": "Data siswa tidak ditemukan atau tidak bisa diakses"}), 403
+            bakat = BakatSiswaService.create_bakat(siswa_id, deskripsi_bakat)
 
-        bakat_siswa = BakatSiswaService.create_bakat(
-            siswa_id=data["siswa_id"],
-            jurusan=data["jurusan"],
-            deskripsi_bakat=data["deskripsi_bakat"]
-        )
-
-        return jsonify({
-            "status": "success",
-            "message": "Data bakat berhasil ditambahkan",
-            "data": {
-                "bakat_id": bakat_siswa.id,
-                "rekomendasi_jurusan": bakat_siswa.rekomendasi
-            }
-        }), 201
-
-
-
-
-
-
-
-
-
-
-
+            return jsonify({
+                "message": "Berhasil menyimpan hasil rekomendasi",
+                "status": "success",
+                "siswa": siswa_id,
+                "jurusan_utama": bakat.jurusan,
+                "rekomendasi": json.loads(bakat.rekomendasi)
+            }), 201
+        except Exception as e:
+            return jsonify({"error": str(e)}), 500
 
 
     @staticmethod
-    def get_my_jurusan():
-        user_id = get_jwt_identity()
-        siswa_list = DataSiswa.query.filter_by(user_id=user_id).all()
-
-        jurusan_data = []
-        for siswa in siswa_list:
-            jurusan_list = BakatSiswaService.get_jurusan_by_siswa(siswa.id)
-            for jurusan in jurusan_list:
-                jurusan_data.append({
-                    "id": jurusan.id,
-                    "siswa_id": jurusan.siswa_id,
-                    "jurusan": jurusan.jurusan,
-                    "deskripsi_bakat": jurusan.deskripsi_bakat,
-                    "rekomendasi": jurusan.rekomendasi
-                })
+    def get_prediksi(siswa_id):
+        hasil = BakatSiswaService.get_prediksi(siswa_id)
+        if not hasil:
+            return jsonify({"message": "Hasil tidak ditemukan"}), 404
 
         return jsonify({
             "status": "success",
-            "message": "Data jurusan berhasil diambil",
-            "data": jurusan_data
-        })
-
-    @staticmethod
-    def get_all_jurusan():
-        user_id = get_jwt_identity()
-        user = User.query.get(user_id)
-
-        if user.role != "admin":
-            return jsonify({"status": "error", "message": "Unauthorized"}), 403
-
-        jurusan_list = BakatSiswaService.get_all_jurusan()
-        data = [{
-            "id": j.id,
-            "siswa_id": j.siswa_id,
-            "jurusan": j.jurusan,
-            "deskripsi_bakat": j.deskripsi_bakat,
-            "rekomendasi": j.rekomendasi
-        } for j in jurusan_list]
-
-        return jsonify({
-            "status": "success",
-            "message": "Data semua jurusan berhasil diambil",
-            "data": data
-        })
+            "siswa_id": hasil.siswa_id,
+            "nama_siswa": hasil.siswa.nama,
+            "nisn": hasil.siswa.nisn,
+            "jenis_kelamin": hasil.siswa.jenis_kelamin,
+            "deskripsi_bakat": hasil.deskripsi_bakat,
+            "jurusan_utama": hasil.jurusan,
+            "rekomendasi": json.loads(hasil.rekomendasi)
+        }), 200

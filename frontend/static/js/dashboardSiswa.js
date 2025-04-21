@@ -1,6 +1,54 @@
 const token = localStorage.getItem("access_token");
 console.log("Token:", token);
 
+ // ================================= Fetch data hasil prediksi siswa
+document.addEventListener("DOMContentLoaded", function () {
+    const urlParams = new URLSearchParams(window.location.search);
+    const siswaId = urlParams.get("siswa_id");
+
+    if (!siswaId) {
+        document.getElementById("hasilContainer").innerHTML = "<p>Data siswa tidak ditemukan.</p>";
+        return;
+    }
+
+    const token = localStorage.getItem("access_token");
+
+    fetch(`http://127.0.0.1:5000/siswa/hasil/${siswaId}`, {
+        method: "GET",
+        headers: {
+            "Authorization": `Bearer ${token}`
+        }
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === "success") {
+                document.getElementById("namaSiswa").textContent = data.nama_siswa;
+                document.getElementById("nisnSiswa").textContent = data.nisn;
+                document.getElementById("jenisKelamin").textContent = data.jenis_kelamin;
+                document.getElementById("deskripsiBakat").textContent = data.deskripsi_bakat;
+                document.getElementById("jurusanUtama").textContent = data.jurusan_utama;
+
+                const tabelRekomendasi = document.getElementById("tabelRekomendasi");
+                data.rekomendasi
+                    .forEach(item => {
+                        const row = document.createElement("tr");
+                        row.innerHTML = `
+                        <td>${item.jurusan}</td>
+                        <td>${item.skor}</td>
+                    `;
+                        tabelRekomendasi.appendChild(row);
+                    });
+            } else {
+                document.getElementById("hasilContainer").innerHTML = "<p>Gagal memuat hasil rekomendasi.</p>";
+            }
+        })
+        .catch(error => {
+            console.error("Error:", error);
+            document.getElementById("hasilContainer").innerHTML = "<p>Terjadi kesalahan saat mengambil data.</p>";
+        });
+});
+
+
 // ============================= Get siswa ====================
 async function fetchDashboard() {
     const token = localStorage.getItem("access_token");
@@ -42,32 +90,6 @@ async function fetchDashboard() {
 
 fetchDashboard();
 
-// ======================= get siswa al by user ===================================
-// document.addEventListener("DOMContentLoaded", function () {
-//     const token = localStorage.getItem("access_token");
-//     const selectElement = document.getElementById("siswa-id-select");
-//     fetch("http://localhost:5000/siswa/getall", {
-//         method: "GET",
-//         headers: {
-//             "Content-Type": "application/json",
-//             "Authorization": `Bearer ${token}`
-//         }
-//     })
-//         .then(response => response.json())
-//         .then(data => {
-//             if (data.status === "success") {
-//                 data.data.forEach(siswa => {
-//                     let option = document.createElement("option");
-//                     option.value = siswa.id;
-//                     option.textContent = `${siswa.nama} - ${siswa.nisn}`;
-//                     selectElement.appendChild(option);
-//                 });
-//             } else {
-//                 console.error("Gagal mengambil data siswa:", data.message);
-//             }
-//         })
-//         .catch(error => console.error("Error:", error));
-// });
 
 document.addEventListener("DOMContentLoaded", function () {
     const token = localStorage.getItem("access_token");
@@ -99,12 +121,20 @@ document.addEventListener("DOMContentLoaded", function () {
         })
         .catch(error => console.error("Error:", error));
 
-    // Tangani klik tombol konfirmasi simpan
+
     confirmSaveBtn.addEventListener("click", function () {
         const siswa_id = selectElement.value;
-        const jurusan = document.getElementById("jurusan").value;
         const deskripsi_bakat = document.getElementById("bakat").value;
 
+        // Tutup modal konfirmasi
+        const confirmModal = bootstrap.Modal.getInstance(document.getElementById('confirmSaveModal'));
+        confirmModal.hide();
+
+        // Tampilkan modal loading
+        const loadingModal = new bootstrap.Modal(document.getElementById('loadingModal'));
+        loadingModal.show();
+
+        // Kirim POST request
         fetch("http://localhost:5000/siswa/jurusan", {
             method: "POST",
             headers: {
@@ -113,30 +143,31 @@ document.addEventListener("DOMContentLoaded", function () {
             },
             body: JSON.stringify({
                 siswa_id: siswa_id,
-                jurusan: jurusan,
                 deskripsi_bakat: deskripsi_bakat
             })
         })
             .then(response => response.json())
             .then(data => {
+                loadingModal.hide();
+
                 if (data.status === "success") {
-                    showAlert("Jurusan berhasil ditambahkan!", "success");
-                    form.reset();
-                    setTimeout(() => {
-                        location.reload();
-                    }, 1500);
+                    // Simpan data ke localStorage (opsional)
+                    localStorage.setItem("hasil_rekomendasi", JSON.stringify({
+                        nama: data.nama_siswa,
+                        jurusan: data.jurusan
+                    }));
+
+                    // Arahkan ke halaman hasil
+                    window.location.href = `/dashboard/hasil?siswa_id=${data.siswa}`;
                 } else {
                     showAlert("Gagal menambahkan jurusan: " + data.message, "danger");
                 }
             })
             .catch(error => {
+                loadingModal.hide();
                 showAlert("Terjadi kesalahan saat menyimpan data.", "danger");
                 console.error("Error:", error);
             });
-
-        // Tutup modal setelah klik simpan
-        let confirmModal = bootstrap.Modal.getInstance(document.getElementById('confirmSaveModal'));
-        confirmModal.hide();
     });
 
     // Fungsi untuk menampilkan alert Bootstrap
@@ -156,10 +187,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }, 3000);
     }
 });
-
-
-
-
 
 
 function showAlert(message, type) {
@@ -225,5 +252,3 @@ function logout() {
 }
 
 document.getElementById("logoutBtn").addEventListener("click", logout);
-
-
