@@ -11,7 +11,7 @@ class BakatSiswaController:
             deskripsi_bakat = data.get("deskripsi_bakat")
 
             if not siswa_id or not deskripsi_bakat:
-                return jsonify({"message": "siswa_id dan deskripsi_bakat wajib diisi"}), 400
+                return jsonify({"message": "Harap lengkapi form!"}), 400
 
             bakat = BakatSiswaService.create_bakat(siswa_id, deskripsi_bakat)
 
@@ -22,8 +22,20 @@ class BakatSiswaController:
                 "jurusan_utama": bakat.jurusan,
                 "rekomendasi": json.loads(bakat.rekomendasi)
             }), 201
+
+        except ValueError as ve:
+            return jsonify({
+                "message": str(ve),
+                "status": "error"
+            }), 400
+
         except Exception as e:
-            return jsonify({"error": str(e)}), 500
+            return jsonify({
+                "message": "Terjadi kesalahan pada server.",
+                "error": str(e),
+                "status": "error"
+            }), 500
+
 
 
     @staticmethod

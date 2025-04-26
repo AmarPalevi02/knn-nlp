@@ -43,7 +43,7 @@ with open("app/models/ml/tfidf.pkl", "wb") as tfidf_file:
     pickle.dump(tfidf, tfidf_file)
 
 # Fungsi prediksi
-def predict_jurusan(input_text, top_n=5):
+def predict_jurusan(input_text, top_n=5, threshold=0.2):
     input_clean = preprocess_text(input_text)
 
     with open("app/models/ml/model.pkl", "rb") as model_file:
@@ -53,8 +53,17 @@ def predict_jurusan(input_text, top_n=5):
         tfidf = pickle.load(tfidf_file)
 
     input_vector = tfidf.transform([input_clean])
+
+    # Cek apakah input_vector kosong (artinya kata-kata tidak relevan)
+    if input_vector.nnz == 0:
+        return None
+
     probabilities = knn.predict_proba(input_vector)
     jurusan_prob = dict(zip(knn.classes_, probabilities[0]))
     sorted_jurusan_prob = sorted(jurusan_prob.items(), key=lambda x: x[1], reverse=True)
+
+    # Cek apakah skor tertinggi terlalu kecil
+    if sorted_jurusan_prob[0][1] < threshold:
+        return None
 
     return [(j, round(p * 100, 2)) for j, p in sorted_jurusan_prob[:top_n]]

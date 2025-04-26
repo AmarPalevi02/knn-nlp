@@ -9,7 +9,7 @@ class BakatSiswaService:
         rekomendasi = predict_jurusan(deskripsi_bakat, top_n=5)
 
         if not rekomendasi:
-            raise ValueError("Gagal memproses deskripsi bakat")
+            raise ValueError("Mohon deskripsikan bakat dengan lebih jelas.")
 
         jurusan_utama = rekomendasi[0][0]
 
@@ -27,6 +27,7 @@ class BakatSiswaService:
         db.session.add(bakat_siswa)
         db.session.commit()
         return bakat_siswa
+
 
 
     @staticmethod
