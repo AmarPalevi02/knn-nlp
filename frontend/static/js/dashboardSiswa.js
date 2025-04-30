@@ -1,7 +1,7 @@
 const token = localStorage.getItem("access_token");
 console.log("Token:", token);
 
- // ================================= Fetch data hasil prediksi siswa
+// ================================= Fetch data hasil prediksi siswa
 document.addEventListener("DOMContentLoaded", function () {
     const urlParams = new URLSearchParams(window.location.search);
     const siswaId = urlParams.get("siswa_id");
@@ -47,6 +47,85 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById("hasilContainer").innerHTML = "<p>Terjadi kesalahan saat mengambil data.</p>";
         });
 });
+
+
+// =========================== print hasil rekomendasi ===================
+async function generatePDF() {
+    const { jsPDF } = window.jspdf;
+
+    const element = document.getElementById("hasilContainer");
+    if (!element) {
+        alert("Elemen hasilContainer tidak ditemukan!");
+        return;
+    }
+
+    // Render elemen ke canvas
+    const canvas = await html2canvas(element, {
+        scale: 2, // meningkatkan kualitas hasil gambar
+        useCORS: true
+    });
+    const imgData = canvas.toDataURL("image/png");
+
+    // Set ukuran PDF
+    const pdf = new jsPDF({
+        orientation: 'portrait',
+        unit: 'px',
+        format: 'a4'
+    });
+
+    const pageWidth = pdf.internal.pageSize.getWidth();
+    const pageHeight = pdf.internal.pageSize.getHeight();
+
+    const imgProps = pdf.getImageProperties(imgData);
+
+    // Margin dalam px
+    const marginX = 20;
+    const marginY = 20;
+
+    const pdfWidth = pageWidth - marginX * 2;
+    const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+
+    // Cek apakah gambar muat 1 halaman atau perlu dipotong
+    if (pdfHeight + marginY * 2 <= pageHeight) {
+        // Gambar muat di satu halaman
+        pdf.addImage(imgData, 'PNG', marginX, marginY, pdfWidth, pdfHeight);
+    } else {
+        // Potong ke beberapa halaman
+        let positionY = marginY;
+        let remainingHeight = pdfHeight;
+        const imageHeightPx = canvas.height;
+        const pageHeightPx = (imgProps.width / pdfWidth) * (pageHeight - marginY * 2);
+
+        while (remainingHeight > 0) {
+            const currentCanvas = document.createElement("canvas");
+            currentCanvas.width = canvas.width;
+            currentCanvas.height = Math.min(pageHeightPx, remainingHeight * (canvas.height / pdfHeight));
+
+            const ctx = currentCanvas.getContext("2d");
+            ctx.drawImage(
+                canvas,
+                0,
+                (canvas.height - remainingHeight * (canvas.height / pdfHeight)),
+                canvas.width,
+                currentCanvas.height,
+                0,
+                0,
+                canvas.width,
+                currentCanvas.height
+            );
+
+            const imgSegment = currentCanvas.toDataURL("image/png");
+            pdf.addImage(imgSegment, 'PNG', marginX, marginY, pdfWidth, (currentCanvas.height / canvas.width) * pdfWidth);
+
+            remainingHeight -= (pageHeight - marginY * 2) * (pdfHeight / pageHeight);
+            if (remainingHeight > 0) {
+                pdf.addPage();
+            }
+        }
+    }
+
+    pdf.save("hasil_rekomendasi.pdf");
+}
 
 
 // ============================= Get siswa ====================
