@@ -53,79 +53,91 @@ document.addEventListener("DOMContentLoaded", function () {
 async function generatePDF() {
     const { jsPDF } = window.jspdf;
 
-    const element = document.getElementById("hasilContainer");
-    if (!element) {
-        alert("Elemen hasilContainer tidak ditemukan!");
-        return;
-    }
-
-    // Render elemen ke canvas
-    const canvas = await html2canvas(element, {
-        scale: 2, // meningkatkan kualitas hasil gambar
-        useCORS: true
-    });
-    const imgData = canvas.toDataURL("image/png");
-
-    // Set ukuran PDF
     const pdf = new jsPDF({
         orientation: 'portrait',
-        unit: 'px',
+        unit: 'mm',
         format: 'a4'
     });
 
-    const pageWidth = pdf.internal.pageSize.getWidth();
-    const pageHeight = pdf.internal.pageSize.getHeight();
+    const margin = 20;
+    let y = margin;
 
-    const imgProps = pdf.getImageProperties(imgData);
+    // Ambil data dari DOM
+    const nama = document.getElementById("namaSiswa").textContent;
+    const nisn = document.getElementById("nisnSiswa").textContent;
+    const jenisKelamin = document.getElementById("jenisKelamin").textContent;
+    const deskripsiBakat = document.getElementById("deskripsiBakat").textContent;
+    const jurusanUtama = document.getElementById("jurusanUtama").textContent;
 
-    // Margin dalam px
-    const marginX = 20;
-    const marginY = 20;
-
-    const pdfWidth = pageWidth - marginX * 2;
-    const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-
-    // Cek apakah gambar muat 1 halaman atau perlu dipotong
-    if (pdfHeight + marginY * 2 <= pageHeight) {
-        // Gambar muat di satu halaman
-        pdf.addImage(imgData, 'PNG', marginX, marginY, pdfWidth, pdfHeight);
-    } else {
-        // Potong ke beberapa halaman
-        let positionY = marginY;
-        let remainingHeight = pdfHeight;
-        const imageHeightPx = canvas.height;
-        const pageHeightPx = (imgProps.width / pdfWidth) * (pageHeight - marginY * 2);
-
-        while (remainingHeight > 0) {
-            const currentCanvas = document.createElement("canvas");
-            currentCanvas.width = canvas.width;
-            currentCanvas.height = Math.min(pageHeightPx, remainingHeight * (canvas.height / pdfHeight));
-
-            const ctx = currentCanvas.getContext("2d");
-            ctx.drawImage(
-                canvas,
-                0,
-                (canvas.height - remainingHeight * (canvas.height / pdfHeight)),
-                canvas.width,
-                currentCanvas.height,
-                0,
-                0,
-                canvas.width,
-                currentCanvas.height
-            );
-
-            const imgSegment = currentCanvas.toDataURL("image/png");
-            pdf.addImage(imgSegment, 'PNG', marginX, marginY, pdfWidth, (currentCanvas.height / canvas.width) * pdfWidth);
-
-            remainingHeight -= (pageHeight - marginY * 2) * (pdfHeight / pageHeight);
-            if (remainingHeight > 0) {
-                pdf.addPage();
-            }
+    const rekomendasi = [];
+    document.querySelectorAll("#tabelRekomendasi tr").forEach(row => {
+        const cols = row.querySelectorAll("td");
+        if (cols.length === 2) {
+            rekomendasi.push([cols[0].textContent, `${cols[1].textContent}%`]);
         }
-    }
+    });
 
-    pdf.save("hasil_rekomendasi.pdf");
+    // Judul
+    pdf.setFont("helvetica", "bold");
+    pdf.setFontSize(16);
+    pdf.text("Laporan Hasil Rekomendasi Jurusan SMK Senopati", pdf.internal.pageSize.getWidth() / 2, y, { align: "center" });
+    y += 10;
+
+    // Tanggal
+    // const tanggal = new Date().toLocaleDateString();
+    // pdf.setFontSize(10);
+    // pdf.setFont("helvetica", "normal");
+    // pdf.text(`Tanggal: ${tanggal}`, margin, y);
+    // y += 10;
+
+    // Data Siswa
+    pdf.setFontSize(12);
+    pdf.text(`Nama: ${nama}`, margin, y); y += 7;
+    pdf.text(`NISN: ${nisn}`, margin, y); y += 7;
+    pdf.text(`Jenis Kelamin: ${jenisKelamin}`, margin, y); y += 7;
+    pdf.text(`Jurusan Utama: ${jurusanUtama}`, margin, y); y += 10;
+
+    // Deskripsi
+    pdf.setFont("helvetica", "bold");
+    pdf.text("Deskripsi Bakat:", margin, y); y += 7;
+    pdf.setFont("helvetica", "normal");
+    const splitDeskripsi = pdf.splitTextToSize(deskripsiBakat, 170);
+    pdf.text(splitDeskripsi, margin, y);
+    y += splitDeskripsi.length * 6 + 5;
+
+    // Tabel Rekomendasi Jurusan
+    pdf.setFont("helvetica", "bold");
+    pdf.text("Top 5 Rekomendasi Jurusan:", margin, y);
+    y += 5;
+
+    pdf.autoTable({
+        startY: y + 5,
+        head: [["Jurusan", "Skor"]],
+        body: rekomendasi,
+        styles: {
+            font: "helvetica",
+            fontSize: 11,
+            halign: 'left',
+            cellPadding: 3,
+        },
+        theme: 'grid',
+        headStyles: {
+            fillColor: [200, 200, 200],
+            textColor: 0,
+            halign: 'center'
+        },
+        margin: { left: margin, right: margin },
+    });
+
+    // Footer
+    pdf.setFontSize(10);
+    pdf.text("Sistem Rekomendasi Jurusan SMK Senopati", margin, 287);
+    pdf.text("Halaman 1", pdf.internal.pageSize.getWidth() - margin, 287, { align: "right" });
+
+    // Simpan PDF
+    pdf.save("laporan_rekomendasi_jurusan.pdf");
 }
+
 
 
 // ============================= Get siswa ====================
