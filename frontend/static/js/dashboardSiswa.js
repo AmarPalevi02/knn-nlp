@@ -61,6 +61,8 @@ async function generatePDF() {
 
     const margin = 20;
     let y = margin;
+    const labelX = margin;
+    const colonX = 60; // Jarak horizontal untuk isi setelah titik dua
 
     // Ambil data dari DOM
     const nama = document.getElementById("namaSiswa").textContent;
@@ -78,36 +80,50 @@ async function generatePDF() {
     });
 
     // Judul
-    pdf.setFont("helvetica", "bold");
+    pdf.setFont("times", "bold");
     pdf.setFontSize(16);
     pdf.text("Laporan Hasil Rekomendasi Jurusan SMK Senopati", pdf.internal.pageSize.getWidth() / 2, y, { align: "center" });
-    y += 10;
-
-    // Tanggal
-    // const tanggal = new Date().toLocaleDateString();
-    // pdf.setFontSize(10);
-    // pdf.setFont("helvetica", "normal");
-    // pdf.text(`Tanggal: ${tanggal}`, margin, y);
-    // y += 10;
+    y += 15;
 
     // Data Siswa
     pdf.setFontSize(12);
-    pdf.text(`Nama: ${nama}`, margin, y); y += 7;
-    pdf.text(`NISN: ${nisn}`, margin, y); y += 7;
-    pdf.text(`Jenis Kelamin: ${jenisKelamin}`, margin, y); y += 7;
-    pdf.text(`Jurusan Utama: ${jurusanUtama}`, margin, y); y += 10;
 
-    // Deskripsi
-    pdf.setFont("helvetica", "bold");
-    pdf.text("Deskripsi Bakat:", margin, y); y += 7;
-    pdf.setFont("helvetica", "normal");
+    pdf.setFont("times", "bold");
+    pdf.text("Nama", labelX, y);
+    pdf.setFont("times", "normal");
+    pdf.text(`: ${nama}`, colonX, y);
+    y += 7;
+
+    pdf.setFont("times", "bold");
+    pdf.text("NISN", labelX, y);
+    pdf.setFont("times", "normal");
+    pdf.text(`: ${nisn}`, colonX, y);
+    y += 7;
+
+    pdf.setFont("times", "bold");
+    pdf.text("Jenis Kelamin", labelX, y);
+    pdf.setFont("times", "normal");
+    pdf.text(`: ${jenisKelamin}`, colonX, y);
+    y += 7;
+
+    pdf.setFont("times", "bold");
+    pdf.text("Jurusan Utama", labelX, y);
+    pdf.setFont("times", "normal");
+    pdf.text(`: ${jurusanUtama}`, colonX, y);
+    y += 10;
+
+    // Deskripsi Bakat
+    pdf.setFont("times", "bold");
+    pdf.text("Deskripsi Bakat:", labelX, y);
+    y += 7;
+    pdf.setFont("times", "normal");
     const splitDeskripsi = pdf.splitTextToSize(deskripsiBakat, 170);
-    pdf.text(splitDeskripsi, margin, y);
+    pdf.text(splitDeskripsi, labelX, y);
     y += splitDeskripsi.length * 6 + 5;
 
     // Tabel Rekomendasi Jurusan
-    pdf.setFont("helvetica", "bold");
-    pdf.text("Top 5 Rekomendasi Jurusan:", margin, y);
+    pdf.setFont("times", "bold");
+    pdf.text("Top 5 Rekomendasi Jurusan:", labelX, y);
     y += 5;
 
     pdf.autoTable({
@@ -115,7 +131,7 @@ async function generatePDF() {
         head: [["Jurusan", "Skor"]],
         body: rekomendasi,
         styles: {
-            font: "helvetica",
+            font: "times",
             fontSize: 11,
             halign: 'left',
             cellPadding: 3,
@@ -130,6 +146,7 @@ async function generatePDF() {
     });
 
     // Footer
+    pdf.setFont("times", "normal");
     pdf.setFontSize(10);
     pdf.text("Sistem Rekomendasi Jurusan SMK Senopati", margin, 287);
     pdf.text("Halaman 1", pdf.internal.pageSize.getWidth() - margin, 287, { align: "right" });
@@ -137,6 +154,9 @@ async function generatePDF() {
     // Simpan PDF
     pdf.save("laporan_rekomendasi_jurusan.pdf");
 }
+
+
+
 
 
 
