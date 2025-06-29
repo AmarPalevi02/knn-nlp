@@ -1,6 +1,8 @@
 from app import db
 from app.models.bakat_siswa import BakatSiswa
+from app.models.data_siswa_model import DataSiswa
 from app.models.ml.model import predict_jurusan
+from app.models.user_model import User 
 import json
 
 class BakatSiswaService:
@@ -36,3 +38,43 @@ class BakatSiswaService:
         if not hasil:
             return None
         return hasil
+
+
+
+    @staticmethod
+    def get_bakat_history_by_user(user_id):
+        # Join bakatsiswa, datasiswa, and users tables, filtered by user_id
+        query = db.session.query(
+            BakatSiswa.id.label('bakat_id'),
+            BakatSiswa.siswa_id,
+            DataSiswa.nama,
+            DataSiswa.nisn,
+            BakatSiswa.jurusan,
+            BakatSiswa.deskripsi_bakat,
+            BakatSiswa.rekomendasi,
+            BakatSiswa.created_at
+        ).join(
+            DataSiswa, BakatSiswa.siswa_id == DataSiswa.id
+        ).join(
+            User, DataSiswa.user_id == User.id
+        ).filter(
+            User.id == user_id
+        ).order_by(
+            BakatSiswa.created_at.desc()
+        ).all()
+
+        # Format the result
+        history = []
+        for row in query:
+            history.append({
+                "bakat_id": row.bakat_id,
+                "siswa_id": row.siswa_id,
+                "nama_siswa": row.nama,
+                "nisn": row.nisn,
+                "jurusan_utama": row.jurusan,
+                "deskripsi_bakat": row.deskripsi_bakat,
+                "rekomendasi": json.loads(row.rekomendasi) if row.rekomendasi else None,
+                "created_at": row.created_at.isoformat() if row.created_at else None
+            })
+
+        return history

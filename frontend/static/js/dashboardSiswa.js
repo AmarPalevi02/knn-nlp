@@ -1,7 +1,7 @@
 const token = localStorage.getItem("access_token");
 console.log("Token:", token);
 
-// ================================= Fetch data hasil prediksi siswa
+// ================================= Fetch data hasil prediksi siswa ===============
 document.addEventListener("DOMContentLoaded", function () {
     const urlParams = new URLSearchParams(window.location.search);
     const siswaId = urlParams.get("siswa_id");
@@ -202,6 +202,53 @@ async function fetchDashboard() {
 fetchDashboard();
 
 
+// =================== history siswa ==============================
+document.addEventListener("DOMContentLoaded", function () {
+    const token = localStorage.getItem("access_token");
+
+    fetch(`http://127.0.0.1:5000/siswa/my-bakat-history`, {
+        method: "GET",
+        headers: {
+            "Authorization": `Bearer ${token}`
+        }
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === "success") {
+                const historyContainer = document.getElementById("historyContainer");
+                data.data.forEach(item => {
+                    const card = document.createElement("div");
+                    card.className = "card";
+                    card.innerHTML = `
+                        <h3>${item.nama_siswa}</h3>
+                        <p><strong>NISN:</strong> ${item.nisn}</p>
+                        <p><strong>Deskripsi Bakat:</strong> ${item.deskripsi_bakat}</p>
+                        <p><strong>Jurusan Utama:</strong> ${item.jurusan_utama}</p>
+                        <h4>Rekomendasi:</h4>
+                        <ul>
+                            ${item.rekomendasi.map(rec => `<li>${rec.jurusan} (Skor: ${rec.skor})</li>`).join('')}
+                        </ul>
+                    `;
+                    historyContainer.appendChild(card);
+                });
+            } else {
+                document.getElementById("historyContainer").innerHTML = "<p>Gagal memuat riwayat bakat siswa.</p>";
+            }
+        })
+        .catch(error => {
+            console.error("Error:", error);
+            document.getElementById("historyContainer").innerHTML = "<p>Terjadi kesalahan saat mengambil data.</p>";
+        });
+});
+
+
+console.log("Elemen:", document.getElementById("historyContainer"));
+
+
+
+
+
+
 document.addEventListener("DOMContentLoaded", function () {
     const token = localStorage.getItem("access_token");
     const selectElement = document.getElementById("siswa-id-select");
@@ -269,7 +316,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     }));
 
                     // Arahkan ke halaman hasil
-                    window.location.href = `/dashboard/hasil?siswa_id=${data.siswa}`;
+                    window.location.href = `/dashboard/hasilByid?siswa_id=${data.siswa}`;
                 } else {
                     showAlert("Gagal menambahkan jurusan: " + data.message, "danger");
                 }
@@ -363,3 +410,5 @@ function logout() {
 }
 
 document.getElementById("logoutBtn").addEventListener("click", logout);
+
+

@@ -29,6 +29,10 @@ def dashboard_siswa_hasil():
     return render_template("components/hasil.html")
 
 
+@frontend_bp.route("/dashboard/hasilByid")
+def dashboard_siswa_hasil_id():
+    return render_template("components/hasilById.html")
+
 
 
 # Route admin

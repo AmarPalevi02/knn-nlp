@@ -49,3 +49,9 @@ def create_bakat():
 @jwt_required()
 def get_prediksi_siswa(siswa_id):
     return BakatSiswaController.get_prediksi(siswa_id)
+
+
+@dashboard_siswa_bp.route('/my-bakat-history', methods=['GET'])
+@jwt_required()
+def get_my_bakat_history():
+    return BakatSiswaController.get_my_bakat_history()

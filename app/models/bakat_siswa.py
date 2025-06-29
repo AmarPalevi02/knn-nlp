@@ -8,5 +8,6 @@ class BakatSiswa(db.Model):
     jurusan = db.Column(db.String(100), nullable=False)
     deskripsi_bakat = db.Column(db.Text, nullable=False)
     rekomendasi = db.Column(db.String(255), nullable=True) 
+    created_at = db.Column(db.DateTime, default=db.func.current_timestamp())
 
     datasiswa = db.relationship('DataSiswa', backref=db.backref('bakatsiswa', lazy=True))
