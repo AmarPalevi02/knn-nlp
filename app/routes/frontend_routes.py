@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, jsonify
+from flask import Blueprint, render_template, jsonify, request
 from flask_jwt_extended import jwt_required, get_jwt_identity, get_jwt
 from flask_jwt_extended import verify_jwt_in_request
 
@@ -24,14 +24,19 @@ def dashboard_siswa_formUpload():
 def dashboard_siswa_jurusan():
     return render_template("components/jurusanSiswa.html")
 
+# @frontend_bp.route("/dashboard/hasil")
+# def dashboard_siswa_hasil():
+#     return render_template("components/hasil.html")
+
 @frontend_bp.route("/dashboard/hasil")
 def dashboard_siswa_hasil():
-    return render_template("components/hasil.html")
+    siswa_id = request.args.get("siswa_id")
+    return render_template("components/hasil.html", siswa_id=siswa_id)
 
 
-@frontend_bp.route("/dashboard/hasilByid")
-def dashboard_siswa_hasil_id():
-    return render_template("components/hasilById.html")
+# @frontend_bp.route("/dashboard/hasilByid")
+# def dashboard_siswa_hasil_id():
+#     return render_template("components/hasilById.html")
 
 
 

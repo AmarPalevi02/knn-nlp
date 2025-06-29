@@ -44,14 +44,27 @@
                </a>
             </li>
             <li class="sidebar-item">
-               <a class="sidebar-link" href="/dashboard/hasil" id="get-url" aria-expanded="false">
+               <a class="sidebar-link" href="#" id="menuHasil" aria-expanded="false">
                   <span>
                      <i class="ti ti-notes"></i>
                   </span>
-                  <span class="hide-menu">Hasil</span>
+                  <span class="hide-menu" >Hasil</span>
                </a>
             </li>
          </ul>
       </nav>
    </div>
+
 </aside>
+   <script>
+      document.addEventListener("DOMContentLoaded", function () {
+         const menuHasil = document.getElementById("menuHasil");
+         const lastSiswaId = localStorage.getItem("last_siswa_id");
+
+         if (menuHasil && lastSiswaId) {
+            menuHasil.href = `/dashboard/hasil?siswa_id=${lastSiswaId}`;
+         } else {
+            menuHasil.href = "/dashboard/hasil"; // Fallback jika tidak ada last_siswa_id
+         }
+      });
+   </script>

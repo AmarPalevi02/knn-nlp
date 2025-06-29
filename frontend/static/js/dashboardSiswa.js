@@ -11,6 +11,9 @@ document.addEventListener("DOMContentLoaded", function () {
         return;
     }
 
+    // Simpan siswa_id terakhir ke localStorage
+    localStorage.setItem("last_siswa_id", siswaId);
+
     const token = localStorage.getItem("access_token");
 
     fetch(`http://127.0.0.1:5000/siswa/hasil/${siswaId}`, {
@@ -242,8 +245,6 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
-console.log("Elemen:", document.getElementById("historyContainer"));
-
 
 
 
@@ -314,9 +315,11 @@ document.addEventListener("DOMContentLoaded", function () {
                         nama: data.nama_siswa,
                         jurusan: data.jurusan
                     }));
-
+                    
+                    // // Simpan siswa_id terakhir
+                    localStorage.setItem("last_siswa_id", data.siswa);
                     // Arahkan ke halaman hasil
-                    window.location.href = `/dashboard/hasilByid?siswa_id=${data.siswa}`;
+                    window.location.href = `/dashboard/hasil?siswa_id=${data.siswa}`;
                 } else {
                     showAlert("Gagal menambahkan jurusan: " + data.message, "danger");
                 }
