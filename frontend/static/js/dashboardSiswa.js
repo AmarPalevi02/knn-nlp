@@ -172,7 +172,7 @@ async function fetchDashboard() {
 
     if (!token) {
         console.error("Token tidak ditemukan!");
-        window.location.href = "/login";
+        window.location.href = "/";
         return;
     }
 
@@ -198,7 +198,7 @@ async function fetchDashboard() {
     } else {
         console.error("Gagal mengambil data dashboard!");
         localStorage.removeItem("access_token");
-        window.location.href = "/login";
+        window.location.href = "/";
     }
 }
 
@@ -409,7 +409,7 @@ document.getElementById("confirmSaveBtn").addEventListener("click", function () 
 
 function logout() {
     localStorage.clear();
-    window.location.href = "/login";
+    window.location.href = "/";
 }
 
 document.getElementById("logoutBtn").addEventListener("click", logout);

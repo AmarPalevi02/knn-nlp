@@ -26,7 +26,7 @@ document.getElementById("registerForm").addEventListener("submit", async functio
       showAlert("success", data.message);
 
       setTimeout(() => {
-         window.location.href = "/login";
+         window.location.href = "/";
       }, 2000)
    } else {
       showAlert("danger", data.message);

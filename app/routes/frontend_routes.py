@@ -4,7 +4,7 @@ from flask_jwt_extended import verify_jwt_in_request
 
 frontend_bp = Blueprint("frontend", __name__)
 
-@frontend_bp.route("/login")
+@frontend_bp.route("/")
 def login():
     return render_template("login.html") 
 

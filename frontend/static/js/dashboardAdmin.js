@@ -56,7 +56,7 @@ async function fetchDashboard() {
    } catch (error) {
       console.error(error.message);
       localStorage.removeItem("access_token");
-      window.location.href = "/login";
+      window.location.href = "/";
    }
 }
 
@@ -68,7 +68,7 @@ document.getElementById("confirmDeleteBtn").addEventListener("click", async func
    const token = localStorage.getItem("access_token");
    if (!token) {
       showAlert("Anda harus login terlebih dahulu!", "danger");
-      window.location.href = "/login";
+      window.location.href = "/";
       return;
    }
 
@@ -249,7 +249,7 @@ document.getElementById("editSiswaForm").addEventListener("submit", function (ev
 
 function logout() {
    localStorage.clear();
-   window.location.href = "/login";
+   window.location.href = "/";
 }
 
 document.getElementById("logoutBtn").addEventListener("click", logout);
